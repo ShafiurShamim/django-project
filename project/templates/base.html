@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <title>{% block title %}Open Source Project...{% endblock %} | Portfolio</title>
+
+    <link rel="stylesheet" href="{% static 'output.css' %}">
+    
+  </head>
+  <body class="{% block body_class %}{% endblock %}">
+    <div class="wrapper">
+    
+    {% include 'includes/header.html' %}
+
+    {% include 'includes/nav.html' %}
+
+      <div class="container">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+        {% block content %}{% endblock %}
+      </div>
+
+     {% include 'includes/footer.html' %}
+
+    </div>
+  </body>
+</html>

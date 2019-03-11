@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,8 +20,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
+PROJECT_CONF_DIR = os.path.join(os.path.dirname(BASE_DIR), "django-conf")
+
+
+with open(os.path.join(PROJECT_CONF_DIR, 'secret.json')) as handle:
+    secrets = json.load(handle)
+
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'z(c2wtnwqko@6iz7!vya)e0s6kd@7ojqtu(5olcy33@&4l0f0y'
+SECRET_KEY = str(secrets['secret_key'])
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,6 +39,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'blog.apps.BlogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,7 +63,7 @@ ROOT_URLCONF = 'project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [str(os.path.join(BASE_DIR, "project/templates"))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,12 +81,24 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
+if 'mysql' in secrets:
+    mysql = secrets['mysql']
+else:
+    mysql = {}
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'HOST': mysql.get('host', ''),
+    #     'PORT': mysql.get('port', ''),
+    #     'NAME': mysql.get('db_name', ''),
+    #     'USER': mysql.get('db_user', ''),
+    #     'PASSWORD': mysql.get('db_pass', '')
+    # },
 }
 
 
@@ -117,4 +138,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "project/static")
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
