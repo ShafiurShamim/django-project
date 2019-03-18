@@ -1,0 +1,36 @@
+.accounts {
+  .register-container,
+  .login-container {
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    border: 1px solid #eaeaea;
+  }
+  .register-container {
+    max-width: 800px;
+  }
+  .register-content,
+  .login-content {
+    padding: 20px;
+  }
+
+  .register-header,
+  .login-header {
+    width: auto;
+    height: auto;
+    padding: 5px 16px;
+    background: #236284;
+    line-height: 40px;
+    color: #ffffff;
+    h2 {
+      font-size: 18px;
+      margin: 0;
+    }
+  }
+  .helptext {
+    font-size: 10px;
+  }
+  .errorlist li {
+    color: #ef5753;
+  }
+}

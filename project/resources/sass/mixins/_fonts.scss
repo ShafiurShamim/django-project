@@ -1,0 +1,17 @@
+// Font Family Mixins
+@mixin serif {
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+@mixin sans-serif {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+@mixin monospace {
+  font-family: "Courier New", Courier, monospace;
+  font-variant-ligatures: no-common-ligatures; // disables the common ligatures only
+  text-rendering: optimizeSpeed; // for Safari 7.x
+}
+
+@mixin font-size($size: 16) {
+  font-size: $size + px;
+  font-size: $size/16 + rem;
+}

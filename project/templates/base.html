@@ -8,7 +8,7 @@
 
     <title>{% block title %}Open Source Project...{% endblock %} | Portfolio</title>
 
-    <link rel="stylesheet" href="{% static 'output.css' %}">
+    <link rel="stylesheet" href="{% static 'app.css' %}">
     
   </head>
   <body class="{% block body_class %}{% endblock %}">
@@ -30,7 +30,7 @@
       </div>
 
      {% include 'includes/footer.html' %}
-
+    <script src="{% static 'app.js' %}"></script>
     </div>
   </body>
 </html>
