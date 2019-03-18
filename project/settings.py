@@ -22,10 +22,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 PROJECT_CONF_DIR = os.path.join(os.path.dirname(BASE_DIR), "django-conf")
 
-
-with open(os.path.join(PROJECT_CONF_DIR, 'secret.json')) as handle:
-    secrets = json.load(handle)
-
+try:
+    with open(os.path.join(PROJECT_CONF_DIR, 'secret.json')) as handle:
+        secrets = json.load(handle)
+except IOError:
+    secrets = {
+        'secret_key': 'secret-key'
+    }
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = str(secrets['secret_key'])
@@ -39,6 +42,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts.apps.AccountsConfig',
     'blog.apps.BlogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
