@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .models import Profile
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from accounts.models import Profile
+from accounts.forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
 
 def register(request):
@@ -45,11 +45,3 @@ def profile(request):
         'p_form': p_form
     }
     return render(request, 'accounts/profile.html', context)
-
-
-# def login(request):
-#     return render(request, 'users/login.html')
-
-
-# def logout(request):
-#     return render(request, 'users/login.html')
