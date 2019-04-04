@@ -12,30 +12,22 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import json
+from conf import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+PROJECT_PACKAGE = str(os.path.join(
+    BASE_DIR, config.get('project_name', 'project')))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
-
-PROJECT_CONF_DIR = os.path.join(os.path.dirname(BASE_DIR), "django-conf")
-
-try:
-    with open(os.path.join(PROJECT_CONF_DIR, 'secret.json')) as handle:
-        secrets = json.load(handle)
-except IOError:
-    secrets = {
-        'secret_key': 'secret-key'
-    }
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = str(secrets['secret_key'])
+SECRET_KEY = str(config.get('secret_key', 'your-secret-key'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ALLOWED_HOSTS = ['127.0.0.1', 'django-project.test']
 ALLOWED_HOSTS = []
 
 
@@ -62,12 +54,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'project.urls'
+ROOT_URLCONF = str(config.get('root_urlconf', 'project.urls'))
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [str(os.path.join(BASE_DIR, "project/templates"))],
+        'DIRS': [str(os.path.join(PROJECT_PACKAGE, "templates"))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,13 +72,13 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'project.wsgi.application'
-
+WSGI_APPLICATION = str(
+    config.get('wsgi_application', 'project.wsgi.application'))
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-if 'mysql' in secrets:
-    mysql = secrets['mysql']
+if 'mysql' in config:
+    mysql = config['mysql']
 else:
     mysql = {}
 
@@ -143,7 +135,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "project/static")
+    os.path.join(PROJECT_PACKAGE, "static")
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')

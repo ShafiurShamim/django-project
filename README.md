@@ -9,7 +9,7 @@ Requirements
 1. Create a Python 3.5 virtualenv
 
 ```sh
-# install virtualenv if you've not
+# install virtualenv if you don't have
 pip3 install virtualenv
 
 # create a virtualenv
@@ -34,7 +34,7 @@ cd django-project
 pip install -r requirements.txt
 ```
 
-4.We'll use Default sqlite3 database
+4. We'll use Default sqlite3 database
 
 ```sh
 # Create tables
